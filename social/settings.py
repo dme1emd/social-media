@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'publication',
     'profiles',
+    'api',
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -50,6 +52,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
 ]
 
 ROOT_URLCONF = 'social.urls'
@@ -127,3 +131,7 @@ MEDIA_ROOT= BASE_DIR/'images'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 AUTH_USER_MODEL = 'profiles.Profile'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#allow all cors origins (for testing)
+
+CORS_ALLOW_ALL_ORIGINS = True

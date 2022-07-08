@@ -7,6 +7,13 @@ from .permissions import isProfileOrReadOnly, isSenderOrReadOnly
 class ProfileListCreateApiView(generics.ListCreateAPIView):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
+    def perform_create(self, serializer):
+        if serializer.is_valid():
+            user =serializer.save()
+            print(user.password)
+            user.set_password(serializer.data.get('password'))
+            user.save()
+            return user
 class ProfileRetrieveUpdateDestroyApiView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()

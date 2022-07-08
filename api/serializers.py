@@ -3,14 +3,18 @@ from profiles.models import *
 from publication.models import *
 class ProfileSerializer(serializers.ModelSerializer):
     publication_set = serializers.PrimaryKeyRelatedField(queryset=Publication.objects.all(),many=True)
-    following = serializers.PrimaryKeyRelatedField(queryset=Publication.objects.all(),many=True)
-    follower = serializers.PrimaryKeyRelatedField(queryset=Publication.objects.all(),many=True)
+    following = serializers.PrimaryKeyRelatedField(queryset=Follow.objects.all(),many=True)
+    follower = serializers.PrimaryKeyRelatedField(queryset=Follow.objects.all(),many=True)
 
     class Meta : 
         model = Profile
-        fields = ['username','password','bio','profile_pic','publication_set']
+        fields = ['username','password','bio','profile_pic','publication_set','following','follower']
         extra_kwargs={
-            'password':{'write_only':True}
+            'password':{'write_only':True},
+            'following':{'required':False},
+            'follower':{'required':False},
+            'publication_set':{'required':False},
+            
         }
 class PublicationSerializer(serializers.ModelSerializer):
     like_set = serializers.PrimaryKeyRelatedField(queryset=Like.objects.all(),many=True)
