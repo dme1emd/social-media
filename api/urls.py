@@ -1,5 +1,9 @@
 from django.urls import path
 from .views import *
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 urlpatterns =[
     path('profiles/',ProfileListCreateApiView.as_view(),name='profile_liste_create'),
     path('profiles/<int:pk>/',ProfileRetrieveUpdateDestroyApiView.as_view(),name='profile_rud'),
@@ -11,4 +15,6 @@ urlpatterns =[
     path('likes/<int:pk>/',LikeRetrieveUpdateDestroyApiView.as_view(),name='like_rud'),
     path('follows/',FollowListCreateApiView.as_view(),name='follow_liste_create'),
     path('follows/<int:pk>/',FollowRetrieveUpdateDestroyApiView.as_view(),name='follow_rud'),
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
