@@ -31,7 +31,7 @@ export const Signup = () => {
   return (
     <div>
         <h1>sign up</h1>
-        <form onSubmit={password==confirm ? sendHandler : (e)=>{e.preventDefault();setMessage('password must be as it\'s confirmation')}}>
+        <form onSubmit={password===confirm ? sendHandler : (e)=>{e.preventDefault();setMessage('password must be as it\'s confirmation')}}>
             <input type='file' onChange={imageHandler}/>
             <input type='text' placeholder='username' value={username} onChange={(e)=>{setUsername(e.target.value)}}/>
             <input type='password' placeholder='password' value={password} onChange={(e)=>{setPassword(e.target.value)}}/>
