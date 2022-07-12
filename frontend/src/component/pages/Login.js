@@ -4,8 +4,7 @@ import jwt_decode from 'jwt-decode'
 import { useEffect,useState } from 'react'
 import { Navigate } from 'react-router-dom'
 export const Login = () => {
-    const [local , setLocal]=useState(localStorage.getItem('token'))
-    const {token , setToken , user , setUser}= useContext(AuthContext)
+    const {token , setToken , user , setUser , local , setLocal}= useContext(AuthContext)
     const login =async (e)=>{
         e.preventDefault()
         const response = await fetch('http://127.0.0.1:8000/api/token/',{
@@ -28,9 +27,8 @@ export const Login = () => {
     }
     useEffect(() => {
         setToken(JSON.parse(local))
-   
     }, [local])
-    useEffect(()=>{
+    useEffect( ()=>{
         setUser(token ? jwt_decode(token.access).user_id : null)
     },[token])
   return (

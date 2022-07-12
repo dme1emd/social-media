@@ -1,7 +1,10 @@
+from tkinter.tix import Tree
+
+from django.http import HttpResponse
 from .serializers import *
 from profiles.models import *
 from publication.models import *
-from rest_framework import generics , response
+from rest_framework import generics , response , decorators
 from .permissions import isProfileOrReadOnly, isSenderOrReadOnly
 # Create your views here.
 class ProfileListCreateApiView(generics.ListCreateAPIView):
@@ -9,11 +12,10 @@ class ProfileListCreateApiView(generics.ListCreateAPIView):
     queryset = Profile.objects.all()
     def perform_create(self, serializer):
         if serializer.is_valid():
-            user =serializer.save()
-            print(user.password)
-            user.set_password(serializer.data.get('password'))
+
+            user =Profile.objects.create_user(username=serializer.data.get('username'),password=serializer.data.get('password'))
+            user.profile_pic = serializer.context.get('request').FILES.get('profile_pic')
             user.save()
-            return user
 class ProfileRetrieveUpdateDestroyApiView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
@@ -46,3 +48,13 @@ class FollowRetrieveUpdateDestroyApiView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = FollowSerializer
     queryset = Follow.objects.all()
     permission_classes=[isSenderOrReadOnly]
+@decorators.api_view(['GET'])
+def home_api(request , pk ):
+    queryset = Profile.objects.get(pk=pk).publication_set.all()
+    for e in Profile.objects.filter(follower__follower=Profile.objects.get(pk=pk)):
+        queryset = queryset | e.publication_set.all()
+    queryset = queryset.order_by('-id')
+    serializer =HomePublicationSerializer(queryset,context={'request': request},many=True)
+    return response.Response(serializer.data)
+    
+    

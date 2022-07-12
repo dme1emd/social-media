@@ -17,4 +17,5 @@ urlpatterns =[
     path('follows/<int:pk>/',FollowRetrieveUpdateDestroyApiView.as_view(),name='follow_rud'),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('home/<int:pk>',home_api)
 ]

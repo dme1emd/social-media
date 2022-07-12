@@ -24,4 +24,4 @@ class Profile(PermissionsMixin , AbstractBaseUser):
     objects= ProfileManager()
     USERNAME_FIELD = 'username'
     def __str__(self):
-        return self.username
+        return self.username + f'    ({self.id})'
