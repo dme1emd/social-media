@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import { Navigate } from 'react-router-dom'
 export const Signup = () => {
     const [message ,setMessage]=useState('')
     const [username , setUsername] =useState('')
@@ -19,6 +20,7 @@ export const Signup = () => {
                 url:'http://127.0.0.1:8000/api/profiles/',
                 data:form
             })
+            return(<Navigate to='/login/'/>)
         }
         catch(err){
             setMessage('a profile with this username already exists')
