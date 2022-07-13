@@ -18,7 +18,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <AuthContext.Provider value={{user , setUser,setToken,token,local,setLocal}}>
-          <Nav/>
+          <Nav className="navbar"/>
           <Routes>
             <Route element={<PrivateRoute/>}>
               <Route element={<Home/>} path="/"/>
