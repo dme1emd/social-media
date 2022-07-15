@@ -1,0 +1,109 @@
+.profile-container{
+    display: flex;
+    flex-direction: column;
+}
+.profile-container .profile-header{
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.profile-container .profile-header .upper{
+    display:flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content:space-around;
+    align-items: center;
+    margin:20px 0;
+}
+.profile-container .profile-header .upper img{
+    width:60px;
+    height: 60px;
+    border-radius:50%;
+    object-fit: cover;
+}
+.profile-container .profile-publications{
+    display: flex;
+    margin: 11vw 0;
+}
+.profile-container .profile-publications .publication{
+    width:33%;
+    height:130px;
+    padding: 0;
+    margin: 0;
+    object-fit: cover;
+}
+.follow-container{
+    display: flex;
+    justify-content: center;
+}
+.follow{
+    background-color: rgb(76, 76, 255);
+    color:#fff;
+    padding: 15px 30px;
+    width: 150px;
+    font-size: 1.2em;
+    border-radius: 20px;
+}
+.followed{
+    background-color: rgb(204, 204, 255);
+    color:#fff;
+    width: 150px;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    border-radius: 20px;
+}
+.modify{
+    background-color: rgb(233, 233, 255);
+    width: 200px;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+@media screen and (min-width:420px){
+    .profile-container .profile-publications .publication{
+        width:33%;
+        height:160px;
+        padding: 0;
+        margin: 0;
+        object-fit: cover;
+    }
+}
+@media screen and (min-width:500px){
+    .profile-container .profile-publications .publication{
+        width:33%;
+        height:250px;
+        padding: 0;
+        margin: 0;
+        object-fit: cover;
+    }
+}
+@media screen and (min-width:810px){
+    .profile-container .profile-publications .publication{
+        width:33%;
+        height:250px;
+        padding: 0;
+        margin: 0;
+        object-fit: cover;
+    }
+}
+@media screen and (min-width:1000px){
+    .profile-container .profile-publications .publication{
+        width:33%;
+        height:310px;
+        padding: 0;
+        margin: 0;
+        object-fit: cover;
+    }
+}
+@media screen and (min-width:1200px){
+    .profile-container .profile-publications .publication{
+        width:33%;
+        height:320px;
+        padding: 0;
+        margin: 0;
+        object-fit: cover;
+    }
+}

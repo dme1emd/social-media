@@ -11,7 +11,6 @@ export const Home = () => {
         const response = await fetch(`http://127.0.0.1:8000/api/home/${jwt_decode(token.access).user_id}`)
         const data = await response.json()
         setPublications(data)
-        console.log(data)
     }
     useEffect(()=>{getPublications()},[])
   return (
