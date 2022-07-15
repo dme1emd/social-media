@@ -1,15 +1,16 @@
 from dataclasses import field
+import profile
 from rest_framework import serializers
 from profiles.models import *
 from publication.models import *
-class PublicationSerializer(serializers.HyperlinkedModelSerializer):
+class PublicationSerializer(serializers.ModelSerializer):
     like_set = serializers.PrimaryKeyRelatedField(read_only=True)
     comment_set = serializers.PrimaryKeyRelatedField(read_only=True)
     class Meta : 
         model = Publication
         fields = ['description','pic','sender','comment_set','like_set']
 class ProfileSerializer(serializers.ModelSerializer):
-    class Meta : 
+    class Meta :
         model = Profile
         fields = ['id','username','password','bio','profile_pic','following','follower']
         extra_kwargs={
@@ -17,6 +18,8 @@ class ProfileSerializer(serializers.ModelSerializer):
             'follower':{'required':False},
             'publication_set':{'required':False , 'read_only':True},   
         }
+
+
 class PublicationSerializer(serializers.ModelSerializer):
     like_set = serializers.PrimaryKeyRelatedField(read_only=True)
     comment_set =serializers.PrimaryKeyRelatedField(read_only=True)
@@ -26,6 +29,12 @@ class PublicationSerializer(serializers.ModelSerializer):
         fields = ['id','description','pic','sender','comment_set','like_set']
     def get_id(self,obj):
         return obj.id
+class PublicationSerializer(serializers.ModelSerializer):
+    like_set = serializers.PrimaryKeyRelatedField(read_only=True)
+    comment_set =serializers.PrimaryKeyRelatedField(read_only=True)
+    class Meta:
+        model = Publication
+        fields = ['id','description','pic','sender','comment_set','like_set']
 class CommentSerializer(serializers.ModelSerializer):
     sender = ProfileSerializer()
     id = serializers.IntegerField()
@@ -42,9 +51,11 @@ class LikeSerializer(serializers.ModelSerializer):
         model = Like
         fields = ['sender','publication']
 class FollowSerializer(serializers.ModelSerializer):
+    follower = ProfileSerializer()
+    following = ProfileSerializer()
     class Meta : 
         model = Follow
-        fields = '__all__'
+        fields = ['follower','following']
 class HomePublicationSerializer(serializers.ModelSerializer):
     sender = ProfileSerializer()
     comment_set = CommentSerializer(many=True)
@@ -52,3 +63,15 @@ class HomePublicationSerializer(serializers.ModelSerializer):
     class Meta :
         model  = Publication
         fields = ['id','description','pic','sender','comment_set','like_set'] 
+class PublicationProfileSerializer(serializers.ModelSerializer):
+    class Meta : 
+        model = Publication
+        fields = ['description','pic','comment_set','like_set']
+class ProfilePageSerializer(serializers.ModelSerializer):
+    following = FollowSerializer(many=True)
+    follower = FollowSerializer(many=True)
+    profile_pic = serializers.ImageField(use_url=True)
+    publication_set = PublicationProfileSerializer(many=True)
+    class Meta :
+        model = Profile
+        fields = ['id','username','password','bio','profile_pic','following','follower','publication_set']

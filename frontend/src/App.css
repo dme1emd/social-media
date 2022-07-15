@@ -2,3 +2,12 @@
     position:fixed;
     bottom: 0%;
 }
+*{
+    padding: 0;
+    margin:0;
+    box-sizing: border-box;
+}
+.app{
+    padding:2px;
+    width: 100vw;
+}

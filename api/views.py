@@ -1,3 +1,4 @@
+from tkinter import N
 from tkinter.tix import Tree
 
 from django.http import HttpResponse
@@ -15,10 +16,11 @@ class ProfileListCreateApiView(generics.ListCreateAPIView):
             user =Profile.objects.create_user(username=serializer.validated_data.get('username'),password=serializer.validated_data.get('password'))
             user.profile_pic = serializer.context.get('request').FILES.get('profile_pic')
             user.save()
-class ProfileRetrieveUpdateDestroyApiView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = ProfileSerializer
-    queryset = Profile.objects.all()
-    permission_classes=[isProfileOrReadOnly]
+@decorators.api_view(['GET'])          
+def profile_page(request,pk):
+    profile =Profile.objects.get(pk=pk)
+    serializer = ProfilePageSerializer(instance =profile ,context={'request': request},many=False).data
+    return response.Response(serializer)
 class PublicationListCreateApiView(generics.ListCreateAPIView):
     serializer_class = PublicationSerializer
     queryset = Publication.objects.all()
@@ -45,9 +47,13 @@ class LikeDislikeApiView(views.APIView):
     def delete(self,request,format=None):
         Like.objects.get(sender=Profile.objects.get(id=request.data.get('sender')),publication=Publication.objects.get(id=request.data.get('publication'))).delete()
         return response.Response({'msg':'disliked'})
-class FollowListCreateApiView(generics.ListCreateAPIView):
-    serializer_class = FollowSerializer
-    queryset = Follow.objects.all()
+class FollowApiView(views.APIView):
+    def post(self,request,format=None):
+        Follow.objects.create(follower=Profile.objects.get(id=request.data.get('follower')),following=Profile.objects.get(id=request.data.get('following')))
+        return response.Response({'msg':'liked'})
+    def delete(self,request,format=None):
+        Follow.objects.get(follower=Profile.objects.get(id=request.data.get('follower')),following=Profile.objects.get(id=request.data.get('following'))).delete()
+        return response.Response({'msg':'disliked'})
 class FollowRetrieveUpdateDestroyApiView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = FollowSerializer
     queryset = Follow.objects.all()

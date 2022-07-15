@@ -4,6 +4,7 @@ import {FaHeart ,FaRegHeart, FaRegComment} from 'react-icons/fa'
 import {FiSend} from 'react-icons/fi'
 import AuthContext from '../context/AuthContext'
 import jwt_decode from 'jwt-decode'
+import { Link } from 'react-router-dom'
 export const Publication = ({Publication}) => {
     const {token} = useContext(AuthContext)
     const [showDescription, setShowDescription] = useState(false)
@@ -67,11 +68,12 @@ export const Publication = ({Publication}) => {
     else{
         var jsx_des = ''
     }
+    const link = `user/${publication.sender.id}`
   return (
     <div className='publication-container' key={publication.id}>
                         <div className='publication-header'>
                             <img src={publication.sender.profile_pic ? publication.sender.profile_pic : '../../../../images/profile_pic/e-pic.jpeg'} className='profile-pic'/>
-                            <h2>{publication.sender.username}</h2>
+                            <Link to={link}>{publication.sender.username}</Link>
                         </div>
                         <div className='publication-body'>
                             <img src={publication.pic} className='publication-pic'/>
@@ -86,7 +88,7 @@ export const Publication = ({Publication}) => {
                                 {`${publication.like_set.length} ${publication.like_set.length > 1 ?'likes':'like'} `}
                             </div>
                             <div className={ showComments?'comments-container':"none"}>
-                                <form onSubmit={handleComment}>
+                                <form onSubmit={commentAdd ?  handleComment : (e)=>{e.preventDefault()}}>
                                     <input type='text' name='comment' value={commentAdd} onChange={(e)=>{SetCommentAdd(e.target.value)}} className='add-comment'/>
                                     <button><FiSend></FiSend></button>
                                 </form>

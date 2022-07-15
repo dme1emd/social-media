@@ -10,6 +10,7 @@ import jwt_decode from 'jwt-decode';
 import { NonAuthRoutes } from './component/utils/NonAuthRoutes';
 import { Logout } from './component/pages/Logout';
 import { Home } from './component/pages/Home';
+import { Userpage } from './component/pages/Userpage';
 function App() {
   const [local , setLocal]=useState(localStorage.getItem('token'))
   const [token,setToken]= useState(localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')):null)
@@ -23,6 +24,7 @@ function App() {
             <Route element={<PrivateRoute/>}>
               <Route element={<Home/>} path="/"/>
               <Route element={<Logout/>} path='/logout/'/>
+              <Route element={<Userpage/>} path='/user/:userId/'/>
             </Route>
             <Route element={<NonAuthRoutes/>}>
               <Route element={<Signup/>} path="signup/"/>
