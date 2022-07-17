@@ -15,7 +15,7 @@ export const Nav = () => {
         <li><Link to='/login/'>login</Link></li>
     </ul>
   return (
-    <div>
+    <div className='navbar'>
         <ul>
             {token ? connected_jsx : not_connected_jsx}
 

@@ -11,6 +11,7 @@ import { NonAuthRoutes } from './component/utils/NonAuthRoutes';
 import { Logout } from './component/pages/Logout';
 import { Home } from './component/pages/Home';
 import { Userpage } from './component/pages/Userpage';
+import {Redirect} from '../src/component/utils/Redirect'
 function App() {
   const [local , setLocal]=useState(localStorage.getItem('token'))
   const [token,setToken]= useState(localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')):null)
@@ -24,7 +25,8 @@ function App() {
             <Route element={<PrivateRoute/>}>
               <Route element={<Home/>} path="/"/>
               <Route element={<Logout/>} path='/logout/'/>
-              <Route element={<Userpage/>} path='/user/:userId/'/>
+              <Route Exact element={<Userpage/>} path='/user/:userId/'/>
+              <Route Exact element={<Redirect/>} path='/redirect/:id'/>
             </Route>
             <Route element={<NonAuthRoutes/>}>
               <Route element={<Signup/>} path="signup/"/>

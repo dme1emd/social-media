@@ -3,16 +3,23 @@ import { createSearchParams, useParams } from 'react-router-dom'
 import AuthContext from '../context/AuthContext'
 import '../../styles/userpage.css'
 import jwt_decode from 'jwt-decode'
+import { Follower } from '../ elements/Follower'
+import {BsArrowLeft} from 'react-icons/bs'
 export const Userpage = () => {
     const {userId} = useParams()
+    const [Userid , setUserId]=useState(userId)
     const {token}=useContext(AuthContext)
     const userid = jwt_decode(token.access).user_id
     const [profile,setProfile]=useState(null)
     const [followed,setFollowed]=useState(profile ? profile.follower.some(obj=>obj.follower.id === userid):false)
+    const [followerSection , setFollowerSection] = useState(false)
+    const [followingSection , setFollowingSection] = useState(false)
+
     const getProfile = async()=>{
-        const response = await fetch(`http://127.0.0.1:8000/api/profiles/${userId}/`)
+        const response = await fetch(`http://127.0.0.1:8000/api/profiles/${Userid}/`)
         const data = await response.json()
         setProfile(data)
+        console.log(data)
     }
     const handleFollow = async()=>{
         fetch(`http://127.0.0.1:8000/api/follows/`,{
@@ -45,15 +52,17 @@ export const Userpage = () => {
 
                 
   return (
+      
     profile?
     <div className='profile-container'>
         <div className='profile-header'>
             <div className='upper'>
                 <img src={profile.profile_pic}/>
                 <div className='publications-num'>{profile.publication_set.length} publications</div>
-                <div className='follower-num'>{`${profile.follower.length} ${profile.follower.length>1 ? 'followers':'follower'}`}</div>
-                <div className='following-num'>{`${profile.following.length} ${profile.following.length>1 ? 'followings':'following'}`}</div>
+                <button className='follower-num' onClick={()=>{setFollowerSection(true)}}>{`${profile.follower.length} ${profile.follower.length>1 ? 'followers':'follower'}`}</button>
+                <button className='following-num' onClick={()=>{setFollowingSection(true)}}>{`${profile.following.length} ${profile.following.length>1 ? 'followings':'following'}`}</button>
             </div>
+            <div className='username'>{profile.username}</div>
             <div className='bio'>
                 {profile.bio}
             </div>
@@ -62,6 +71,25 @@ export const Userpage = () => {
         <div className='profile-publications'>
             {profile.publication_set.map((element)=>{return <img src={element.pic} className='publication'/>})}
         </div>
+        {   
+            followerSection ?
+            <div className='followers'>
+                followers
+                {profile.follower.map((element)=>{return <Follower profile={element.follower} key={element.follower.id}></Follower>})}
+            </div>
+            :
+            <div></div>
+        }
+                {   
+            followingSection ?
+            <div className='followings'>
+                followings
+                {profile.following.map((element)=>{return <Follower profile={element.following} key={element.following.id}></Follower>})}
+            </div>
+            :
+            <div></div>
+        }
+        {followerSection || followingSection ? <button className='sections-false' onClick={()=>{setFollowingSection(false) ; setFollowerSection(false)}}> <BsArrowLeft/> </button> : <div></div>}
     </div> : <div></div>
   )
 }

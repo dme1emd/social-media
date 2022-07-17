@@ -1,0 +1,23 @@
+.follower-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    margin: 10px 10%;
+    padding: 4px 0;
+    border: 1px solid rgba(0, 0, 0, 0.339);
+    padding: 10px;
+    border-radius:10px;
+}
+.follower-container .left{
+    display: flex;
+}
+.follower-container img{
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    margin: 0 20px 0 0;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+}
