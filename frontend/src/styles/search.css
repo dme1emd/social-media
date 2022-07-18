@@ -1,0 +1,15 @@
+.results{
+    display: flex;
+    flex-direction: column;
+}
+.results .result{
+    display: flex;
+    align-items:center;
+    padding: 10px;
+}
+.results .result img{
+    height: 40px;
+    width: 40px;
+    border-radius:50%;
+    margin:0 12px;
+}

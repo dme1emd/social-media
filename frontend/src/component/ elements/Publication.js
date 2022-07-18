@@ -71,6 +71,7 @@ export const Publication = ({Publication}) => {
     const link = `user/${publication.sender.id}`
   return (
     <div className='publication-container' key={publication.id}>
+
                         <Link to={link} className='publication-header'>
                             <img src={publication.sender.profile_pic ? publication.sender.profile_pic : '../../../../images/profile_pic/e-pic.jpeg'} className='profile-pic'/>
                             <div>{publication.sender.username}</div>
