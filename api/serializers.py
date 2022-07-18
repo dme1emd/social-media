@@ -12,7 +12,7 @@ class PublicationSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta :
         model = Profile
-        fields = ['id','username','password','bio','profile_pic','following','follower']
+        fields = ['id','username','password','bio','profile_pic','following','follower','is_private']
         extra_kwargs={
             'following':{'required':False},
             'follower':{'required':False},
@@ -74,4 +74,4 @@ class ProfilePageSerializer(serializers.ModelSerializer):
     publication_set = PublicationProfileSerializer(many=True)
     class Meta :
         model = Profile
-        fields = ['id','username','password','bio','profile_pic','following','follower','publication_set']
+        fields = ['id','username','password','bio','profile_pic','following','follower','publication_set','is_private']

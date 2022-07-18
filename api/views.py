@@ -1,16 +1,14 @@
-from tkinter import N
-from tkinter.tix import Tree
-
-from django.http import HttpResponse
 from .serializers import *
 from profiles.models import *
 from publication.models import *
-from rest_framework import generics , response , decorators ,views
+from rest_framework import generics , response , decorators ,views, filters
 from .permissions import isProfileOrReadOnly, isSenderOrReadOnly
 # Create your views here.
 class ProfileListCreateApiView(generics.ListCreateAPIView):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ['username',]
     def perform_create(self, serializer):
         if serializer.is_valid():
             user =Profile.objects.create_user(username=serializer.validated_data.get('username'),password=serializer.validated_data.get('password'))
@@ -66,5 +64,4 @@ def home_api(request , pk ):
     queryset = queryset.order_by('-id')
     serializer =HomePublicationSerializer(queryset,context={'request': request},many=True)
     return response.Response(serializer.data)
-    
     
