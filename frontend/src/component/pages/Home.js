@@ -13,6 +13,9 @@ export const Home = () => {
         setPublications(data)
     }
     useEffect(()=>{getPublications()},[])
+    const notif_socket =new WebSocket(`ws://127.0.0.1:8000/notification/1/`)
+    notif_socket.onopen= (e)=>{console.log('open',e)}
+
   return (
     <div className='home'>
         {   publications.map((publication)=>

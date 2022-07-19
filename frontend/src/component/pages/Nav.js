@@ -8,13 +8,13 @@ import jwt_decode from 'jwt-decode'
 import '../../styles/nav.css'
 export const Nav = () => {
     const {token} = useContext(AuthContext)
-    const connected_jsx = 
+    const connected_jsx = token?
     <ul>
             <li><Link to='/'><GrHomeRounded/></Link></li>
             <li><Link to='/search/'><BiSearch/></Link></li>
             <li><Link to={`user/${jwt_decode(token.access).user_id}`}><CgProfile/></Link></li>
             <li><Link to='/logout/'>logout</Link></li>
-    </ul>
+    </ul>:''
     const not_connected_jsx = 
     <ul>     
         <li><Link to='/signup/'>signup</Link></li>

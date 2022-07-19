@@ -14,12 +14,11 @@ export const Userpage = () => {
     const [followed,setFollowed]=useState(profile ? profile.follower.some(obj=>obj.follower.id === userid):false)
     const [followerSection , setFollowerSection] = useState(false)
     const [followingSection , setFollowingSection] = useState(false)
-
+    const [invited , setInvited]=useState(profile ? profile.invitation_from.some((e)=>e.invitor.id===userid) : false)
     const getProfile = async()=>{
         const response = await fetch(`http://127.0.0.1:8000/api/profiles/${Userid}/`)
         const data = await response.json()
         setProfile(data)
-        console.log(data)
     }
     const handleFollow = async()=>{
         fetch(`http://127.0.0.1:8000/api/follows/`,{
@@ -38,7 +37,10 @@ export const Userpage = () => {
         setFollowed(false)
     }
     useEffect(()=>{getProfile()},[])
-    useEffect(()=>{setFollowed(profile ? profile.follower.some(obj=>obj.follower.id === userid ): false)},[profile])
+    useEffect(()=>{
+        setFollowed(profile ? profile.follower.some(obj=>obj.follower.id === userid ): false)
+        setInvited(profile ?profile.invitation_from.some((e)=>e.invitor.id===userid):false)
+    },[profile])
     if(profile){
             var jsx = userid === profile.id ? 
                 <div className='modify'>
@@ -49,7 +51,24 @@ export const Userpage = () => {
                     {followed? <button onClick={handleUnFollow} className='followed'>followed</button> : <button onClick={handleFollow} className='follow'>follow</button>}
                 </div>
     }
-
+    if(profile)
+    if(profile.is_private && !followed){
+            return(
+                profile?
+                <div className='profile-container'>
+                    <div className='profile-header'>
+                        <div className='upper'>
+                            <img src={profile.profile_pic}/>
+                            <div className='publications-num'>{profile.publication_set.length} publications</div>
+                            <div className='follower-num'>{`${profile.follower.length} ${profile.follower.length>1 ? 'followers':'follower'}`}</div>
+                            <div className='following-num'>{`${profile.following.length} ${profile.following.length>1 ? 'followings':'following'}`}</div>
+                        </div>
+                        <div className='username'>{profile.username}</div>
+                        {invited ? <button>invited</button>:<button>send ivitation</button>}
+                    </div>
+                </div> : ''
+            )
+    }
                 
   return (
       
@@ -78,7 +97,7 @@ export const Userpage = () => {
                 {profile.follower.map((element)=>{return <Follower profile={element.follower} key={element.follower.id}></Follower>})}
             </div>
             :
-            <div></div>
+            ''
         }
                 {   
             followingSection ?

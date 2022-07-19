@@ -12,7 +12,7 @@ class PublicationSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta :
         model = Profile
-        fields = ['id','username','password','bio','profile_pic','following','follower','is_private']
+        fields = ['id','username','password','bio','profile_pic','following','follower','is_private','invitation_to','invitation_from']
         extra_kwargs={
             'following':{'required':False},
             'follower':{'required':False},
@@ -29,6 +29,12 @@ class PublicationSerializer(serializers.ModelSerializer):
         fields = ['id','description','pic','sender','comment_set','like_set']
     def get_id(self,obj):
         return obj.id
+class InvitationSerializer(serializers.ModelSerializer):
+    invitor = ProfileSerializer()
+    invited = ProfileSerializer()
+    class Meta : 
+        model = Invitation
+        fields = ['invitor','invited']
 class PublicationSerializer(serializers.ModelSerializer):
     like_set = serializers.PrimaryKeyRelatedField(read_only=True)
     comment_set =serializers.PrimaryKeyRelatedField(read_only=True)
@@ -70,8 +76,10 @@ class PublicationProfileSerializer(serializers.ModelSerializer):
 class ProfilePageSerializer(serializers.ModelSerializer):
     following = FollowSerializer(many=True)
     follower = FollowSerializer(many=True)
+    invitation_from = InvitationSerializer(many=True)
+    invitation_to = InvitationSerializer(many=True)
     profile_pic = serializers.ImageField(use_url=True)
     publication_set = PublicationProfileSerializer(many=True)
     class Meta :
         model = Profile
-        fields = ['id','username','password','bio','profile_pic','following','follower','publication_set','is_private']
+        fields = ['id','username','password','bio','profile_pic','following','follower','publication_set','is_private','invitation_to','invitation_from']
