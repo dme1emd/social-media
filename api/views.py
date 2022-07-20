@@ -64,4 +64,16 @@ def home_api(request , pk ):
     queryset = queryset.order_by('-id')
     serializer =HomePublicationSerializer(queryset,context={'request': request},many=True)
     return response.Response(serializer.data)
-    
+@decorators.api_view(['GET'])
+def invitations_api(request , pk):
+    queryset = Invitation.objects.filter(invited__id = pk)
+    serializer = InvitationSerializer(queryset,many=True)
+    return response.Response(serializer.data)
+@decorators.api_view(['GET','DELETE','POST'])
+def notification_api(request , pk=None): 
+    if request.method == 'GET':
+        qs = Notification.objects.filter(to__id = pk)
+        serializer = NotificationSerializer(qs , many=True)
+        return response.Response(serializer.data)
+    if request.method =='DELETE':
+        Notification.objects.get(pk=pk).delete()

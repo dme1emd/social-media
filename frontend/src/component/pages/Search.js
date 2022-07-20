@@ -12,7 +12,14 @@ export const Search = () => {
         const data = await response.json()
         setProfiles(data)
     }
-    useEffect(()=>{getProfiles()},[search])
+    const handleUnFollow = async()=>{
+        fetch(`http://127.0.0.1:8000/api/notifications/1/`,{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body : JSON.stringify({'follower':1,'following':2})
+        })
+    }
+    useEffect(()=>{getProfiles() ; handleUnFollow()},[search])
   return (
       <div>
         <form>
