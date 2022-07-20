@@ -15,5 +15,7 @@ urlpatterns =[
     path('follows/',FollowApiView.as_view(),name='follow_liste_create'),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('home/<int:pk>',home_api)
+    path('home/<int:pk>',home_api),
+    path('invitations/<int:pk>/',invitations_api),
+    path('notifications/<int:pk>/',notification_api)
 ]

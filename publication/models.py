@@ -1,3 +1,4 @@
+from xmlrpc.client import Boolean
 from django.db import models
 from profiles.models import Profile
 import uuid
@@ -22,3 +23,9 @@ class Follow(models.Model):
     following = models.ForeignKey(Profile,related_name="follower",on_delete=models.CASCADE)
     def __str__(self):
         return self.follower.username + ' follows ' + self.following.username
+class Notification(models.Model):
+    type = models.CharField(max_length=20)
+    new = models.BooleanField(default=True)
+    to = models.ForeignKey(Profile , on_delete=models.CASCADE , related_name='notifiaction_to')
+    doer = models.ForeignKey(Profile , on_delete=models.CASCADE)
+    on = models.DateTimeField(auto_now_add=True)

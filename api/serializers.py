@@ -83,3 +83,11 @@ class ProfilePageSerializer(serializers.ModelSerializer):
     class Meta :
         model = Profile
         fields = ['id','username','password','bio','profile_pic','following','follower','publication_set','is_private','invitation_to','invitation_from']
+class NotificationSerializer(serializers.ModelSerializer):
+    doer = serializers.SlugRelatedField(        
+        read_only=True,
+        slug_field='username'
+    )
+    class Meta:
+        model = Notification
+        fields = ['on','to','doer','type']

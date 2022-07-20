@@ -36,6 +36,13 @@ export const Userpage = () => {
         })
         setFollowed(false)
     }
+    const handleInvite =()=>{
+        const notif_socket = new WebSocket(`ws://127.0.0.1:8000/notification/${profile.id}/`)
+        notif_socket.onopen=()=>{notif_socket.send(JSON.stringify({'invitor':userid,'invited':profile.id}))}
+        notif_socket.onmessage=()=>{console.log('heu')}
+        notif_socket.onerror=()=>{}
+        notif_socket.onclose=()=>{}
+    }
     useEffect(()=>{getProfile()},[])
     useEffect(()=>{
         setFollowed(profile ? profile.follower.some(obj=>obj.follower.id === userid ): false)
@@ -64,7 +71,7 @@ export const Userpage = () => {
                             <div className='following-num'>{`${profile.following.length} ${profile.following.length>1 ? 'followings':'following'}`}</div>
                         </div>
                         <div className='username'>{profile.username}</div>
-                        {invited ? <button>invited</button>:<button>send ivitation</button>}
+                        {invited ? <button>invited</button>:<button onClick={handleInvite}>send ivitation</button>}
                     </div>
                 </div> : ''
             )
