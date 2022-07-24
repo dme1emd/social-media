@@ -25,7 +25,7 @@ class Profile(PermissionsMixin , AbstractBaseUser):
     objects= ProfileManager()
     USERNAME_FIELD = 'username'
     def __str__(self):
-        return self.username
+        return f"profile object ({self.id})"
 class Invitation(models.Model):
     invitor = models.ForeignKey(Profile ,related_name='invitation_to' , on_delete =models.CASCADE)
     invited = models.ForeignKey(Profile ,related_name='invitation_from' , on_delete =models.CASCADE)
