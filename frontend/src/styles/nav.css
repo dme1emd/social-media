@@ -10,3 +10,18 @@
     list-style: none;
     font-size:1.6em;
 }
+.notified{
+    position: relative;
+}
+.notified::before{
+    content: '';
+    display: block;
+    height:6px;
+    width:6px;
+    border-radius: 50%;
+    background-color: red;
+    position: absolute;
+    bottom: -3px;
+    left: 50%;
+    transform: translate(-50% , 0);
+}

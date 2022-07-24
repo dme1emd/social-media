@@ -1,0 +1,17 @@
+.invitation{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100vw;
+    margin: 10px 0;
+    padding: 5px;
+}
+.notification-content{
+    font-size: .8em;
+}
+.invitation button{
+    padding: 10px 15px;
+    margin: 0 7px;
+    border-radius: 12px;
+    background: rgb(9, 189, 255);
+}

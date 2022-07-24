@@ -1,3 +1,4 @@
+from django.db import reset_queries
 from .serializers import *
 from profiles.models import *
 from publication.models import *
@@ -72,8 +73,14 @@ def invitations_api(request , pk):
 @decorators.api_view(['GET','DELETE','POST'])
 def notification_api(request , pk=None): 
     if request.method == 'GET':
-        qs = Notification.objects.filter(to__id = pk)
+        qs = Notification.objects.filter(to__id = pk).order_by('-id')
         serializer = NotificationSerializer(qs , many=True)
         return response.Response(serializer.data)
     if request.method =='DELETE':
         Notification.objects.get(pk=pk).delete()
+        return response.Response({"message":"deleted"})
+    return response.Response({'message' : 'not allowed'})
+def invitation_api(request , pk=None): 
+    if request.method =='DELETE':
+        print(request)
+    return response.Response({'message' : 'not allowed'})

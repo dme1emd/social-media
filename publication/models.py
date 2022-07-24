@@ -29,3 +29,5 @@ class Notification(models.Model):
     to = models.ForeignKey(Profile , on_delete=models.CASCADE , related_name='notifiaction_to')
     doer = models.ForeignKey(Profile , on_delete=models.CASCADE)
     on = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return self.type + " from " + self.doer.username + " to " + self.to.username

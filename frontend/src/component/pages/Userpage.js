@@ -37,9 +37,13 @@ export const Userpage = () => {
         setFollowed(false)
     }
     const handleInvite =()=>{
+        setInvited(true)
         const notif_socket = new WebSocket(`ws://127.0.0.1:8000/notification/${profile.id}/`)
-        notif_socket.onopen=()=>{notif_socket.send(JSON.stringify({'invitor':userid,'invited':profile.id}))}
-        notif_socket.onmessage=()=>{console.log('heu')}
+        notif_socket.onopen=(e)=>{
+            notif_socket.send(JSON.stringify({type:'invitation',invitor:userid,invited:profile.id}))
+            console.log(e)
+        }
+        notif_socket.onmessage=()=>{}
         notif_socket.onerror=()=>{}
         notif_socket.onclose=()=>{}
     }
@@ -59,7 +63,7 @@ export const Userpage = () => {
                 </div>
     }
     if(profile)
-    if(profile.is_private && !followed){
+    if(profile.is_private && !followed && userid != profile.id){
             return(
                 profile?
                 <div className='profile-container'>
